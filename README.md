@@ -1,233 +1,377 @@
+![CI](https://github.com/Nazish3/tech-policies-quiz/actions/workflows/ci.yml/badge.svg)
+
 # Tech Policies Quiz (MVP)
-This is a Python and Streamlit-based quiz designed to reinforce essential workplace technology and security policie for complaince and adherence.
 
-## 1. Introduction
-Modern technology workplaces rely heavily on employees understanding and following security, privacy and acceptable use policies. These policies help maintain the integrity of systems, protect sensitive information and prevent human errors that commonly lead to cyber incidents. However, in many organisations, staff encounter these policies only during onboarding, and awareness naturally decreases over time.
-To address this gap, I have developed a Tech Policies Quiz MVP, which is a lightweight and interactive tool designed to help staff refresh their knowledge of key organisational policies. The quiz focuses on areas such as phishing awareness, password hygiene, incident reporting, data handling and secure connectivity practices things that all crucial in daily operations. The application provides a quick, non‑formal way to reinforce best practices while making compliance learning more engaging.
-From a development perspective, this project demonstrates a complete software lifecycle: design, planning, implementation, testing, deployment and documentation. The application uses Python and Streamlit for the GUI, incorporates object‑oriented programming principles, stores results in CSV format for persistence and includes both manual and automated testing. This aligns with professional development standards expected in junior software developer and technical apprentice roles.
+A Python + Streamlit quiz application designed to improve workplace awareness of key technology and security policies. This MVP demonstrates a full software development lifecycle including design, implementation, testing, continuous integration, documentation and deployment.
 
-## 2. Design Section
-### 2.1 GUI Design (Figma Screenshots)
-The interface was designed in Figma to plan the user journey before implementation. The prototype consists of three screens: the Start Screen, Question Screen and Results Screen.
-
-#### Start Screen (Figma)
-
-Users enter their name
-Clearly displays the app title and input field
-Single call‑to‑action button (“Start Quiz”)
-
-Screenshot:
-![alt text](figma_start.png)
-
-#### Question Screen (Figma)
-
-Displays the question number
-Shows the question text
-Radio-style answer options
-Submit button
-
-Screenshot:
-![alt text](figma_question.png)
-
-#### Results Screen (Figma)
-
-Shows final score and percentage
-Lists correct and incorrect answers
-Offers “Restart Quiz” option
-
-Screenshot:
-![alt text](figma_results.png)
-
-### 2.2 Functional Requirements
-
-Requirement            | Description 
-Display quiz questions | The system must present 10 question.
-Mixed question types   | Must include multiple-choice and true/false questions.
-Name input validation  | Must validate name before starting.
-Answer submission      | Must allow users to select and submit answers.
-Progress tracking      | Show which question the user is on.
-Scoring                | Calculate correct answers and final percentage.
-Review system          | Show detailed feedback after completion.
-CSV storage            | Save attempts with detailed JSON breakdown.
-Download feature       | Allow exporting attempts CSV.
-
-### 2.3 Non‑Functional Requirements
-
-Category        | Requirement
-Usability       | Simple, beginner-friendly interface.
-Performance     | Instant loading and transitions.
-Accessibility   | Clean fonts and clear spacing.
-Reliability     | Handles invalid input safely.
-Maintainability | Modular folder structure.
-Testability     | Pure functions allow unit testing.
-Security        | Only stores minimal non-sensitive data.
-
-### 2.4 Tech Stack
-
-Python 3
-Streamlit – GUI
-Pytest – Unit testing
-CSV – Data persistence
-Git & GitHub – Version control
-Figma – GUI prototyping
-Virtual environment – Dependency isolation
-
-### 2.5 Code Design (Class Diagram)
-![alt text](uml_class_diagram.png)
-
-Structure:
-Question class
-
-qid
-qtype
-prompt
-options
-correct_index
-explanation
-
-QuizEngine class
-
-current_index
-score
-total
-answer_current()
-current_question()
-is_finished()
-answers_summary()
-missed_questions()
-results_breakdown()
-
-Modules:
-
-utils.py → pure validation/scoring functions
-storage.py → CSV read/write
-
-## 3. Development Section
-The system is built using a modular Python architecture to make sure and keep the code clean and maintainable.
-
-### 3.1 Logic Layer (quiz/models.py)
-This contains the object‑oriented structure:
-
-Question represents each quiz item
-QuizEngine handles:
-
-tracking progress
-checking answers
-computing score
-collecting answer data for storage and review
-
-By separating questions and logic from the GUI, the app becomes easier and efficient to test and extend.
-
-### 3.2 Utility Layer (quiz/utils.py)
-Includes pure functions:
-
-normalise_name()
-is_valid_name()
-score_percentage()
-
-These functions have:
-
-No external dependencies
-No side effects
-Fully deterministic behaviour
-
-This makes them very ideal for unit testing.
-
-### 3.3 Storage Layer (quiz/storage.py)
-Handles CSV storage with exception safety.
-
-Data stored includes:
-
-name
-timestamp
-score
-percentage
-full answer summary in JSON
-missed questions list in JSON
-
-CSV is used for simplicity, auditability and for the companys benefit to see painpoints and weaknesses.
-
-### 3.4 GUI Layer (app.py)
-Streamlit renders:
-
-Start screen
-Question screens
-Results screen
-Sidebar with CSV download
-
-Uses session_state to maintain quiz progress across interactions.
-
-## 4. Testing Section
-### 4.1 Testing Strategy
-Two approaches were used:
-Automated Testing (Pytest)
-Covers:
-
-name validation
-percentage calculations
-answer checking
-engine scoring logic
-
-Manual Testing
-Validates:
-
-entering names
-answering questions
-saving CSV
-downloading attempts
-restarting quiz
+**Live App:**  
+https://tech-policies-quiz-mwynmdjqnexj2j9jedpdf4.streamlit.app
 
 
-### 4.2 Manual Test Table
+# 1. Introduction
 
-Test ID | Action                     | Expected                | Actual | Pass
-MT01    | Enter invalid name         | Error shown             | Works  | ✔
-MT02    | Start quiz with valid name | Quiz loads              | Works  | ✔
-MT03    | Submit answer              | Moves to next question  | Works  | ✔
-MT04    | Finish quiz                | Score displayed         | Works  | ✔
-MT05    | Save attempt               | CSV updated             | Works  | ✔
-MT06    | Download CSV               | File downloads          | Works  | ✔
-MT07    |Restart quiz                | Returns to start screen | Works  | ✔
+Modern technology organisations depend heavily on employees understanding and consistently following internal policies relating to cybersecurity, data protection, acceptable use of systems and incident reporting. Human error remains one of the largest causes of security incidents and policy awareness naturally fades over time when reinforced only during onboarding. Staff may forget reporting procedures, overlook data‑handling guidelines, or underestimate risks around phishing emails or public Wi‑Fi usage.
 
-### 4.3 Unit Testing Output
-![alt text](tests_passed.png)
+To address this, the **Tech Policies Quiz MVP** offers a practical, interactive way for employees to refresh essential policy knowledge in a low‑pressure format. The quiz is intentionally short (10 questions) and covers real‑world workplace scenarios involving password hygiene, MFA, data classification, lost devices, phishing, acceptable use, secure development and safe network practices. Each question includes an explanation to reinforce learning immediately after answering.
 
-## 5. Documentation Section
-### 5.1 User Documentation
-To run the quiz:
+This project demonstrates a complete professional development workflow suitable for junior developers, apprentices, and technical roles. The application uses **Python** for logic, **Streamlit** for the graphical user interface, **CSV** for persistent attempt storage, **pytest** for automated testing, and **GitHub Actions** for continuous integration. It follows modular software architecture principles: separating UI, logic (QuizEngine), data models, storage functions and pure validation utilities. This improves maintainability, testability, and extensibility of the system.
 
-Enter your name on the Start screen
-Click Start Quiz
-Select an answer for each question
-Click Submit
-After the final question, the score and feedback screen appears
-Use sidebar to download attempts CSV
-Click Restart Quiz to retake
+The application’s attempt logging supports basic analytics — capturing timestamped results, user names, score percentages, missed questions, and answer summaries. This enables teams or training departments to identify common misunderstanding areas and reinforce weak points in staff knowledge.
+
+Overall, this MVP provides a lightweight yet realistic example of how internal training tools can be built, tested, deployed and documented using modern software development practices.
 
 
-### 5.2 Technical Documentation
-Installation:
-python -m venv .venv
-source .venv/bin/activate   (Mac)
-.venv\Scripts\Activate.ps1  (Windows)
-pip install -r requirements.txt
+# 2. Design Section
 
-Run the app:
-streamlit run app.py
+## 2.1 GUI Design (Figma Prototypes)
 
-Run tests:
-pytest
+The interface was prototyped using Figma to visualise the user journey and ensure a simple, accessible and professional user experience.
 
-Folder structure:
+### Start Screen  
+![Start](figma_start.png)
+
+### Question Screen  
+![Question](figma_question.png)
+
+### Results Screen  
+![Results](figma_results.png)
+
+
+## 2.2 Functional Requirements
+
+| Requirement | Description |
+|---|---|
+| Display 10 questions | Must present all quiz questions sequentially. |
+| Mixed question types | Supports multiple-choice and true/false. |
+| Name validation | User must enter a valid name to start. |
+| Progress tracking | Shows question number and updates after each answer. |
+| Answer submission | Only one answer allowed per question. |
+| Scoring | Calculates total score and percentage. |
+| Review system | Shows detailed feedback including explanations. |
+| Persistent storage | Saves every attempt into CSV. |
+| CSV export | Allows staff to download attempts from the sidebar. |
+
+
+## 2.3 Non‑Functional Requirements
+
+| Category | Requirement |
+|---|---|
+| Usability | Clean UI, minimal steps, simple navigation. |
+| Performance | Instant responses, no visible lag. |
+| Reliability | Handles errors gracefully (CSV write errors, invalid names). |
+| Maintainability | Modular folder structure. |
+| Testability | Pure functions implemented for validation and scoring. |
+| Security | Stores minimal non-sensitive data; no credentials stored. |
+| Accessibility | Clear text, spacing, consistent layout. |
+
+
+## 2.4 Tech Stack
+
+- **Python 3**
+- **Streamlit** — GUI framework
+- **Pytest** — automated testing
+- **GitHub Actions** — continuous integration
+- **CSV** — persistent storage
+- **Figma** — UI/UX prototyping
+- **Git & GitHub** — version control and CI/CD
+
+
+## 2.5 Code Design (Class Diagram)
+
+![UML](uml_class_diagram.png)
+
+
+# 3. Development Section
+
+The project follows a modular structure to separate responsibilities and support testability.
+
+```text
 tech-policies-quiz/
 ├── app.py
 ├── README.md
 ├── requirements.txt
 ├── quiz/
+│   ├── __init__.py
+│   ├── models.py
+│   ├── storage.py
+│   └── utils.py
 ├── tests/
+│   ├── conftest.py
+│   ├── test_engine.py
+│   └── test_utils.py
 └── data/
+    └── attempts.csv (auto-created)
+```
 
-## 6. Evaluation Section
-Several aspects of this project went well. Using Streamlit enabled me to build an interactive GUI without complex front-end development which was useful for a beginner like me. Breaking the code into logical modules (models, utils, storage) helped improve clarity and maintainability of the quiz. Using pytest gave me hands‑on experience with unit testing and validating core functionality of the code. Designing the screens in Figma beforehand helped me structure the application and ensured a consistent user flow for best user experience.
-Challenges included understanding how Streamlit reruns the script after each user interaction and structuring JSON inside CSV files for detailed storage and auditability purposes. Learning OOP principles and integrating them into the quiz logic required additional practice. If extended, I would implement randomised question ordering, a database for storing attempts, improved styling, and user authentication.
-Overall, the project was a valuable introduction to full‑stack development processes, including design, implementation, testing, documentation and evaluation and reflects real working practices within a technology organisation and is crucial practises in todays increasing malicious technology world.
+## 3.1 Logic Layer (quiz/models.py)
+
+The Question class represents each quiz item:
+
+from dataclasses import dataclass
+from typing import List, Literal, Dict, Any
+
+QuestionType = Literal["multiple_choice", "true_false"]
+
+@dataclass(frozen=True)
+class Question:
+    """Represents a single question (multiple choice or true/false)."""
+    qid: str
+    qtype: QuestionType
+    prompt: str
+    options: List[str]
+    correct_index: int
+    explanation: str = ""
+
+The QuizEngine manages scoring, progress, and answer tracking:
+
+class QuizEngine:
+    """
+    Runs quiz logic independent of the GUI.
+    Tracks progress, stores answers, calculates score.
+    """
+
+    def __init__(self, questions: List[Question]):
+        if not questions:
+            raise ValueError("Quiz must contain at least one question.")
+        self._questions = questions
+        self._current = 0
+        self._score = 0
+        self._answers = []  # (question_index, selected_index, is_correct)
+
+    @property
+    def current_index(self) -> int:
+        return self._current
+
+    @property
+    def score(self) -> int:
+        return self._score
+
+    @property
+    def total(self) -> int:
+        return len(self._questions)
+
+    def current_question(self) -> Question:
+        return self._questions[self._current]
+
+    def answer_current(self, selected_index: int) -> bool:
+        """Answers the current question, updates score, and moves forward."""
+        q = self.current_question()
+        is_correct = (selected_index == q.correct_index)
+        self._answers.append((self._current, selected_index, is_correct))
+        if is_correct:
+            self._score += 1
+        self._current += 1
+        return is_correct
+
+    def is_finished(self) -> bool:
+        return self._current >= len(self._questions)
+
+    def answers_summary(self) -> List[Dict[str, Any]]:
+        """Structured summary of all answers (good for storage and analytics)."""
+        summary = []
+        for q_index, selected, is_correct in self._answers:
+            q = self._questions[q_index]
+            summary.append({
+                "qid": q.qid,
+                "type": q.qtype,
+                "prompt": q.prompt,
+                "selected_index": selected,
+                "selected_text": q.options[selected] if 0 <= selected < len(q.options) else "Invalid",
+                "correct_index": q.correct_index,
+                "correct_text": q.options[q.correct_index],
+                "is_correct": is_correct
+            })
+        return summary
+
+    def missed_questions(self) -> List[Dict[str, Any]]:
+        """Only the incorrect answers (useful for training insights)."""
+        return [a for a in self.answers_summary() if not a["is_correct"]]
+
+    def results_breakdown(self) -> List[Dict[str, Any]]:
+        """Detailed breakdown for the review screen, including explanations."""
+        breakdown = []
+        for q_index, selected, is_correct in self._answers:
+            q = self._questions[q_index]
+            breakdown.append({
+                "qid": q.qid,
+                "type": q.qtype,
+                "question": q.prompt,
+                "selected": q.options[selected] if 0 <= selected < len(q.options) else "Invalid",
+                "correct": q.options[q.correct_index],
+                "is_correct": is_correct,
+                "explanation": q.explanation,
+            })
+        return breakdown
+
+
+## 3.2 Utility Layer (quiz/utils.py)
+
+Validation and scoring functions are implemented as pure functions:
+
+```python
+import re
+
+def normalise_name(name: str) -> str:
+    """
+    Pure function: trims whitespace and collapses multiple spaces.
+    Example: "  Nazish   Jujara " -> "Nazish Jujara"
+    """
+    return " ".join((name or "").strip().split())
+
+def is_valid_name(name: str) -> bool:
+    """
+    Pure function: validates a user name.
+    Rules:
+    - 2 to 40 characters
+    - letters/spaces/hyphen/apostrophe allowed
+    - must start with a letter
+    """
+    cleaned = normalise_name(name)
+    if not (2 <= len(cleaned) <= 40):
+        return False
+    return bool(re.fullmatch(r"[A-Za-z][A-Za-z\s'\-]*", cleaned))
+
+def score_percentage(score: int, total: int) -> int:
+    """
+    Pure function: returns score as a percentage (0-100).
+    Raises ValueError if inputs are invalid.
+    """
+    if total <= 0:
+        raise ValueError("Total must be greater than 0.")
+    if score < 0 or score > total:
+        raise ValueError("Score must be between 0 and total.")
+    return round((score / total) * 100)
+```
+
+## 3.3 Storage Layer (quiz/storage.py)
+
+## 3.3 Storage Layer (quiz/storage.py)
+
+Attempts are stored in CSV for persistence and easy export.  
+Missed questions and full answers are stored as JSON strings inside CSV columns.
+
+```python
+import csv
+import os
+import json
+from datetime import datetime
+from typing import List, Dict, Any
+
+DEFAULT_PATH = os.path.join("data", "attempts.csv")
+
+def ensure_data_dir(path: str) -> None:
+    """Creates the parent folder for the CSV if it doesn't exist."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+def append_attempt(path, name, score, total, percentage, missed, answers) -> None:
+    """
+    Appends a quiz attempt to CSV.
+    Missed questions and full answers are stored as JSON strings.
+    """
+    ensure_data_dir(path)
+    file_exists = os.path.exists(path)
+
+    row = {
+        "timestamp": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        "name": name,
+        "score": score,
+        "total": total,
+        "percentage": percentage,
+        "missed_questions": json.dumps(missed, ensure_ascii=False),
+        "answers": json.dumps(answers, ensure_ascii=False),
+    }
+
+    try:
+        with open(path, mode="a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=row.keys())
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(row)
+    except OSError as e:
+        raise OSError(f"Failed to write attempts CSV: {e}") from e
+
+def read_attempts(path: str) -> List[Dict[str, str]]:
+    """Reads quiz attempts from CSV; returns empty list if file not found."""
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, mode="r", newline="", encoding="utf-8") as f:
+            return list(csv.DictReader(f))
+    except OSError as e:
+        raise OSError(f"Failed to read attempts CSV: {e}") from e
+```
+
+## 3.4 GUI Layer (app.py)
+Streamlit handles the interface and application flow:
+
+Start screen (name input + validation)
+Quiz flow (radio options and submit)
+Results and explanations
+CSV download via sidebar
+Session state to keep progress and avoid duplicate saves
+
+# 4. Testing Section
+
+## 4.1 Testing Strategy
+
+Automated testing (pytest) covers:
+
+name validation
+percentage scoring
+QuizEngine logic
+missed questions behaviour
+
+Manual GUI testing covers:
+
+navigation
+validation messages
+CSV saving and download
+restart logic
+
+## 4.2 Manual Test Table
+
+| Test ID | Description        | Expected              | Actual | Pass |
+|---------|--------------------|------------------------|--------|------|
+| MT01    | Invalid name       | Error shown            | Works  | ✔    |
+| MT02    | Valid name         | Quiz starts            | Works  | ✔    |
+| MT03    | No answer selected | Error shown            | Works  | ✔    |
+| MT04    | Submit answer      | Goes to next question  | Works  | ✔    |
+| MT05    | Finish quiz        | Shows score            | Works  | ✔    |
+| MT06    | Save attempt       | CSV updated            | Works  | ✔    |
+| MT07    | Download CSV       | Works                  | Works  | ✔    |
+| MT08    | Restart quiz       | Returns to start       | Works  | ✔    |
+
+## 4.3 Unit Test Output
+
+![alt text](tests_passed.png)
+
+# 5. Documentation Section
+
+## 5.1 User Documentation
+
+Enter name
+Click Start Quiz
+Select an answer and Submit
+Review score and explanations
+Download CSV (sidebar) if needed
+Click Restart Quiz to retake
+
+## 5.2 Technical Documentation
+
+Install: pip install -r requirements.txt
+Run: streamlit run app.py
+Test: pytest
+
+# 6. Deployment Section
+
+Streamlit Cloud Deployment
+Live App:
+https://tech-policies-quiz-mwynmdjqnexj2j9jedpdf4.streamlit.app
+
+Streamlit Cloud provides zero‑configuration hosting from GitHub and quick redeploys, which is ideal for small internal tools and MVPs.
+
+# 7. Evaluation Section
+
+This project was a valuable learning experience across the full development lifecycle. Designing the UI in Figma provided clarity before coding. Streamlit made GUI development accessible without needing separate frontend frameworks. Keeping logic (QuizEngine), utilities and storage separate made the code easier to work with and test.
+Understanding Streamlit’s rerun behaviour took some trial and error; using session_state and saving once at completion avoided duplicate CSV rows. Storing detail as JSON inside a CSV kept the data simple but still useful for basic analysis. Future improvements could include a question bank, randomisation, accessibility improvements, an analytics dashboard, and optional authentication.
+Overall, the project demonstrates practical software engineering practices: modular design, testing with CI, persistent storage, documentation and a live deployment.
